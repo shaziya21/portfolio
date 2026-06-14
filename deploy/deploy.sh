@@ -7,7 +7,10 @@ APP_DIR="/var/www/portfolio"
 cd "$APP_DIR"
 git pull origin main
 
+rm -rf venv
+python3.12 -m venv venv
 source venv/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
 
 sudo systemctl restart portfolio

@@ -9,7 +9,14 @@ LOG_DIR="/var/log/portfolio"
 
 echo "==> Installing system packages..."
 sudo apt-get update -y
-sudo apt-get install -y python3 python3-venv python3-pip nginx git curl
+sudo apt-get install -y python3.12 python3.12-venv python3-pip nginx git curl
+
+PYTHON=python3.12
+if ! command -v "$PYTHON" &>/dev/null; then
+  echo "ERROR: python3.12 is required. Ubuntu 24.04+ should provide it via apt."
+  exit 1
+fi
+echo "Using $($PYTHON --version)"
 
 echo "==> Creating directories..."
 sudo mkdir -p "$APP_DIR" "$DATA_DIR" "$LOG_DIR"
@@ -25,14 +32,15 @@ fi
 cd "$APP_DIR"
 
 echo "==> Setting up Python virtual environment..."
-python3 -m venv venv
+rm -rf venv
+$PYTHON -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 
 echo "==> Creating environment file..."
 if [ ! -f "$APP_DIR/.env" ]; then
-  SECRET=$(python3 -c "import secrets; print(secrets.token_urlsafe(48))")
+  SECRET=$($PYTHON -c "import secrets; print(secrets.token_urlsafe(48))")
   cat > "$APP_DIR/.env" <<EOF
 SECRET_KEY=$SECRET
 DATABASE_URL=sqlite:////$DATA_DIR/portfolio.db
