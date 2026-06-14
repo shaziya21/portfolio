@@ -9,13 +9,9 @@ LOG_DIR="/var/log/portfolio"
 
 echo "==> Installing system packages..."
 sudo apt-get update -y
-sudo apt-get install -y python3.12 python3.12-venv python3-pip nginx git curl
+sudo apt-get install -y python3-full python3-venv python3-pip nginx git curl
 
-PYTHON=python3.12
-if ! command -v "$PYTHON" &>/dev/null; then
-  echo "ERROR: python3.12 is required. Ubuntu 24.04+ should provide it via apt."
-  exit 1
-fi
+PYTHON=python3
 echo "Using $($PYTHON --version)"
 
 echo "==> Creating directories..."

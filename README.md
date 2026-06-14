@@ -4,7 +4,7 @@ A modern, minimal portfolio site for Shaziya Akhtar with FastAPI backend, JWT au
 
 ## Setup
 
-Requires Python 3.12 or 3.13.
+Requires Python 3.12+ (Ubuntu 24.04/25.04 default `python3` works).
 
 ```bash
 cd portfolio
